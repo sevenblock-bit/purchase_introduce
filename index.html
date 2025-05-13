@@ -169,7 +169,7 @@
     }
     @media screen and (min-width: 768px) {
       .container {
-        max-width: 1280px;
+        max-width: 640px;
         max-height: 100vh;
         margin: auto;
         border-radius: 2px;
@@ -186,7 +186,7 @@
         width: 80px;
       }
       .btn-image {
-        max-width: 600px;
+        max-width: 300px;
       }
     }
   </style>
@@ -195,7 +195,7 @@
   <div class="container">
     <div class="header">
       <div class="video-container">
-        <video autoplay loop controls playsinline>
+        <video id="mainVideo" autoplay loop controls playsinline>
           <source src="https://sevenblock-vibrator-public.oss-cn-shenzhen.aliyuncs.com/video/1964_1746868049.mp4" type="video/mp4">
         </video>
       </div>
@@ -246,5 +246,30 @@
   <a href="https://item.taobao.com/item.htm?spm=a21dvs.23580594.0.0.621e2c1b2Tf1wS&ft=t&id=886725498210" class="side-btn side-btn-right" target="_blank">
     <img src="https://sevenblock-vibrator-public.oss-cn-shenzhen.aliyuncs.com/images/点击购买竖屏.gif" alt="点我购买">
   </a>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const video = document.getElementById('mainVideo');
+      if (video) {
+        // Try to play with sound
+        video.play().catch(function(error) {
+          console.log('Autoplay with sound was prevented: ', error);
+          // If autoplay with sound fails, try with mute
+          video.muted = true;
+          video.play().catch(function(err) {
+            console.log('Even muted autoplay was prevented: ', err);
+          });
+        });
+        
+        // Unmute and play video on first user interaction with the page
+        document.addEventListener('click', function() {
+          video.muted = false;
+          video.play().catch(function(error) {
+            console.log('Play on click was prevented: ', error);
+          });
+        }, { once: true }); // Only need to do this once
+      }
+    });
+  </script>
 </body>
 </html> 
